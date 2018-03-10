@@ -10,6 +10,7 @@ export default new Router({
       path: '/',
       name: 'HelloWorld',
       component: HelloWorld
-    }
+    },
+    {path: '/list',component:  resolve => require(['../components/list'], resolve)}//懒加载
   ]
 })

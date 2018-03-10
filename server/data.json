@@ -1,5 +1,5 @@
 [
-    {name: 'tom'},
-    {name: 'hy'},
-    {name: 'lucy'}
+    {"name": "tom"},
+    {"name": "hy"},
+    {"name": "lucy"}
 ]

@@ -7,7 +7,8 @@ var a;
 console.log(3000)
 fs.readFile(__dirname + '/data.json', 'utf8', function(err, data) {
   console.log(data)
-  a = data;
+  a = JSON.parse(data)
+  console.log(typeof a)
 });
 // app.use(serve(__dirname + '/common'))
 const about = ctx => {
@@ -15,6 +16,7 @@ const about = ctx => {
   // var a;
   
   // ctx.response.body = Object
+  ctx.type = 'application/json'
   ctx.body = a
 };
 
