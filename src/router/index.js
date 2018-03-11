@@ -11,6 +11,7 @@ export default new Router({
       name: 'HelloWorld',
       component: HelloWorld
     },
-    {path: '/list',component:  resolve => require(['../components/list'], resolve)}//懒加载
+    {path: '/list',component:  resolve => require(['../components/list'], resolve)},  //懒加载
+    {path: '/video',component:  resolve => require(['../components/video'], resolve)}
   ]
 })

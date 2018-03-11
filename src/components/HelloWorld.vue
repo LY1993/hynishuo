@@ -3,6 +3,7 @@
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <h2 @click="tolist">to list</h2>
+    <h2 @click="toVideo">to video</h2>
     <ul>
       <li>
         <a
@@ -95,6 +96,9 @@ export default {
   methods: {
     tolist() {
       this.$router.push('/list')
+    },
+    toVideo() {
+      this.$router.push('/video')
     }
   }
 }
