@@ -4,6 +4,21 @@ var app = new koa()
 var fs = require('fs')
 const route = require('koa-route');
 
+var createHandler = require('github-webhook-handler')
+var handler = createHandler({ path: '/api/webhook', secret: 'a123456' })
+handler.on('push', function (event) {
+  console.log('Received a push event for %s to %s',
+    event.payload.repository.name,
+    event.payload.ref)
+})
+handler.on('issues', function (event) {
+  console.log('Received an issue event for %s action=%s: #%d %s',
+    event.payload.repository.name,
+    event.payload.action,
+    event.payload.issue.number,
+    event.payload.issue.title)
+})
+
 var dbase
 var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://localhost:27017/runoob';
@@ -34,10 +49,16 @@ const about = ctx => {
 const main = ctx => {
   ctx.response.body = 'Hello World';
 };
+
+const hook = ctx => {
+  ctx.response.body = 'Hello hook';
+};
 const video = ctx => {
   ctx.response.body = fs.createReadStream(__dirname + '/demo.mp4',{encoding:'base64'});
 };
 app.use(route.get('/api/hallo', main));
 app.use(route.get('/api/video', video));
 app.use(route.get('/api/list', about));
-app.listen(3000)
+app.use(route.post('/api/webhook', hook));
+app.use(route.get('/api/webhook', hook));
+app.listen(8080)
