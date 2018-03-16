@@ -20,18 +20,18 @@ handler.on('issues', function (event) {
 })
 
 var dbase
-var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017/runoob';
-MongoClient.connect(url, function (err, db) {
-    if (err) throw err;
-    console.log('数据库已创建');
-    dbase = db.db("runoob");
-    dbase.createCollection('site', function (err, res) {
-        if (err) throw err;
-        console.log("创建集合!");
-        db.close();
-    });
-});
+// var MongoClient = require('mongodb').MongoClient;
+// var url = 'mongodb://localhost:27017/runoob';
+// MongoClient.connect(url, function (err, db) {
+//     if (err) throw err;
+//     console.log('数据库已创建');
+//     dbase = db.db("runoob");
+//     dbase.createCollection('site', function (err, res) {
+//         if (err) throw err;
+//         console.log("创建集合!");
+//         db.close();
+//     });
+// });
 fs.readFile(__dirname + '/data.json', 'utf8', function(err, data) {
   // console.log()
   var b = fs.createReadStream(__dirname + '/demo.mp4')
