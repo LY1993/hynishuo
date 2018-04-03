@@ -12,6 +12,8 @@
   "author": "hynishuo",
   "license": "ISC",
   "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
     "koa": "^2.5.0",
     "koa-route": "^3.2.0"
   }

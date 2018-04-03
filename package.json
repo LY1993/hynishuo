@@ -5,7 +5,7 @@
   "author": "hynishuo",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js"
   },
@@ -32,6 +32,8 @@
     "friendly-errors-webpack-plugin": "^1.6.1",
     "github-webhook-handler": "^0.7.1",
     "html-webpack-plugin": "^2.30.1",
+    "koa-body": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
     "mongodb": "^3.0.4",
     "node-notifier": "^5.1.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
