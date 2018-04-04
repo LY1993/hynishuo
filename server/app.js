@@ -1,4 +1,5 @@
 var ctr = require ('./controller/ctr.js')
+require('./start.js')
 let {about, main, hook, video, getlist, addlist, dellist} = ctr
 var koa = require('koa')
 var app = new koa()
