@@ -21,5 +21,6 @@ require("shelljs/global");
 // 	echo('Error: Git commit failed');
 // 	exit(1);
 // }
-exec('chmod +x ./startmongo.sh')  //使脚本具有执行权限
-exec('./startmongo.sh')  //执行脚本
+exec('mongod')
+// exec('chmod +x ./startmongo.sh')  //使脚本具有执行权限
+// exec('./startmongo.sh')  //执行脚本
