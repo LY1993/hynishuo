@@ -35,7 +35,7 @@ const hook = ctx => {
   ctx.response.body = 'Hello hook';
 };
 const video = ctx => {
-  ctx.response.body = fs.createReadStream(__dirname + '/demo.mp4',{encoding:'base64'});
+  ctx.response.body = fs.createReadStream(path.resolve(__dirname, '..') + '/demo.mp4',{encoding:'base64'});
 };
 
 const getlist = async ctx => {
