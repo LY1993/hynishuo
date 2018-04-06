@@ -14,5 +14,6 @@ export default new Router({
     {path: '/list',component:  resolve => require(['../components/list'], resolve)},  //懒加载
     {path: '/video',component:  resolve => require(['../components/video'], resolve)},
     {path: '/mongo',component:  resolve => require(['../components/mongo'], resolve)},
+    {path: '/upload',component:  resolve => require(['../components/upload'], resolve)},
   ]
 })

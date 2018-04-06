@@ -2,9 +2,10 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
-    <h2 @click="tolist">to list</h2>
-    <h2 @click="toVideo">to video</h2>
-    <h2 @click="tomongo">to mongo</h2>
+    <h2 @click="toPath('list')">to list</h2>
+    <h2 @click="toPath('video')">to video</h2>
+    <h2 @click="toPath('mongo')">to mongo</h2>
+    <h2 @click="toPath('upload')">to upload</h2>
   </div>
 </template>
 
@@ -17,14 +18,8 @@ export default {
     }
   },
   methods: {
-    tolist() {
-      this.$router.push('/list')
-    },
-    toVideo() {
-      this.$router.push('/video')
-    },
-    tomongo() {
-      this.$router.push('/mongo')
+    toPath(path) {
+      this.$router.push(path)
     }
   }
 }

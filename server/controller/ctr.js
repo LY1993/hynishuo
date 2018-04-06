@@ -7,6 +7,7 @@ var options = {
 };
 const fs = require('fs')
 const path = require('path')
+const mineType = require('mime-types');
 const mongo = require('mongodb')
 const ObjectID = mongo.ObjectID
 var MongoClient = mongo.MongoClient;
@@ -35,22 +36,22 @@ const hook = ctx => {
   ctx.response.body = 'Hello hook';
 };
 const video = ctx => {
-  ctx.response.body = fs.createReadStream(path.resolve(__dirname, '..') + '/demo.mp4',{encoding:'base64'});
+  // ctx.type = 'image/png';
+  ctx.type = 'text/plain; charset=utf-8';
+  // ctx.set('Content-Encoding', 'binary')
+  let filePath = path.resolve(__dirname, '..') + '/demo.mp4'
+  
+  let data = fs.readFileSync(filePath);  
+  data = new Buffer(data).toString('base64');  
+    
+  let base64 = 'data:' + mineType.lookup(filePath) + ';base64,' + data;  
+  // ctx.response.body = fs.createReadStream(path.resolve(__dirname, '..') + '/demo.mp4', {encoding: 'utf8'});
+  ctx.body = base64
 };
 
 const getlist = async ctx => {
   let result = await dbase.collection('site').find().toArray()
-  // result.toArray(function(err, result) {
-  //   if(err) throw err
-  //   console.log(result)
-  //   ctx.body = result;
-  // })
   ctx.body = result;
-  // dbase.collection('site').find().toArray(function(err, result) {
-  //   if(err) throw err
-  //   console.log(result)
-  //   ctx.body = result;
-  // })
 }
 const addlist = async (ctx,next) => {
   // console.log(koaBody)
@@ -73,6 +74,51 @@ const dellist = async (ctx,next) => {
   let result = await dbase.collection('site').findAndRemove({_id: new ObjectID(id)})
   ctx.body = result;
 }
+
+const upload = async ctx => {
+  // let random = Math.round(10000 * Math.random())
+  let data = ctx.request.body.postData
+  let name = ctx.request.body.name
+  let picpath = path.resolve(__dirname, '..') + '/pic/' + name
+  // console.log(picpath)
+  // var base64Data = data.replace(/^data:image\/\w+;base64,/, "");
+  await dbase.createCollection('pic')
+  await dbase.collection('pic').insert({name: name,type: data.split(',')[0]})
+  await fs.writeFile(picpath, data)
+  // ctx.response.body = fs.createReadStream(path.resolve(__dirname, '..') + '/demo.mp4',{encoding:'base64'});
+  // console.log(data)
+  ctx.body = 'ok'
+};
+const getPiclist = async ctx => {
+  // await dbase.collection('pic').remove({})
+  let result = await dbase.collection('pic').find().toArray()
+  // console.log(result)
+  let stream = []
+  result.map(async i => {
+    // console.log(path.resolve(__dirname, '..') + '/pic/' + i.name)
+    let item = fs.readFileSync(path.resolve(__dirname, '..') + '/pic/' + i.name, 'binary');
+    // console,log(item)
+    stream.push({data: item, id: i._id})
+  })
+  // ctx.type = 'image/png';
+  ctx.body = stream
+  // ctx.body = stream;
+  // dbase.collection('site').find().toArray(function(err, result) {
+  //   if(err) throw err
+  //   console.log(result)
+  //   ctx.body = result;
+  // })
+}
+const delPic = async (ctx,next) => {
+  // console.log(koaBody)
+  // await koaBody(ctx,next)
+  let id = ctx.request.body.id
+  console.log(ctx.request.body)
+  // console.log(ctx.req)
+  if(!id) ctx.body = 'error'
+  let result = await dbase.collection('pic').findAndRemove({_id: new ObjectID(id)})
+  ctx.body = 'ok';
+}
 module.exports = {
   about,
   main,
@@ -81,4 +127,7 @@ module.exports = {
   getlist,
   addlist,
   dellist,
+  upload,
+  getPiclist,
+  delPic,
 }

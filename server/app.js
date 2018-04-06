@@ -1,6 +1,6 @@
 var ctr = require ('./controller/ctr.js')
 // require('./start.js')
-let {about, main, hook, video, getlist, addlist, dellist} = ctr
+let {about, main, hook, video, getlist, addlist, dellist, upload, getPiclist, delPic} = ctr
 var koa = require('koa')
 var app = new koa()
 const path = require('path')
@@ -9,25 +9,25 @@ var fs = require('fs')
 const route = require('koa-route');
 const serve = require('koa-static');
 
-const static = serve(path.join(__dirname + '/dist'));
+const static = serve(path.join(__dirname + '/pic'));
 const bodyparser = require('koa-bodyparser')
 // require('./server.js')
 app.use(bodyparser())
-app.use(static)
-var createHandler = require('github-webhook-handler')
-var handler = createHandler({ path: '/api/webhook', secret: 'a123456' })
-handler.on('push', function (event) {
-  console.log('Received a push event for %s to %s',
-    event.payload.repository.name,
-    event.payload.ref)
-})
-handler.on('issues', function (event) {
-  console.log('Received an issue event for %s action=%s: #%d %s',
-    event.payload.repository.name,
-    event.payload.action,
-    event.payload.issue.number,
-    event.payload.issue.title)
-})
+// app.use(static)
+// var createHandler = require('github-webhook-handler')
+// var handler = createHandler({ path: '/api/webhook', secret: 'a123456' })
+// handler.on('push', function (event) {
+//   console.log('Received a push event for %s to %s',
+//     event.payload.repository.name,
+//     event.payload.ref)
+// })
+// handler.on('issues', function (event) {
+//   console.log('Received an issue event for %s action=%s: #%d %s',
+//     event.payload.repository.name,
+//     event.payload.action,
+//     event.payload.issue.number,
+//     event.payload.issue.title)
+// })
 
 fs.readFile(__dirname + '/data.json', 'utf8', function(err, data) {
   // console.log()
@@ -46,4 +46,8 @@ app.use(route.get('/api/webhook', hook));
 app.use(route.get('/api/getlist', getlist));
 app.use(route.post('/api/addlist', addlist));
 app.use(route.post('/api/dellist', dellist));
-app.listen(8888)
+app.use(route.post('/api/upload', upload));
+app.use(route.post('/api/delPic', delPic));
+app.use(route.get('/api/getPiclist', getPiclist));
+app.listen(3000)
+console.log(3000)
