@@ -9,11 +9,11 @@ var fs = require('fs')
 const route = require('koa-route');
 const serve = require('koa-static');
 
-const static = serve(path.join(__dirname + '/pic'));
+const static = serve(path.resolve(__dirname, '..') + '/dist');
 const bodyparser = require('koa-bodyparser')
 // require('./server.js')
 app.use(bodyparser())
-// app.use(static)
+app.use(static)
 // var createHandler = require('github-webhook-handler')
 // var handler = createHandler({ path: '/api/webhook', secret: 'a123456' })
 // handler.on('push', function (event) {
