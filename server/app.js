@@ -49,5 +49,5 @@ app.use(route.post('/api/dellist', dellist));
 app.use(route.post('/api/upload', upload));
 app.use(route.post('/api/delPic', delPic));
 app.use(route.get('/api/getPiclist', getPiclist));
-app.listen(3000)
-console.log(3000)
+app.listen(8888)
+// console.log(3000)
