@@ -8,6 +8,24 @@ var options = {
 const fs = require('fs')
 const path = require('path')
 const mineType = require('mime-types');
+const cluster = require('cluster');
+console.time('4 cluster');
+var a = []
+if (cluster.isMaster) {
+  // Fork workers.
+  for (var i = 0; i < 4; i++) {
+    a[i] = cluster.fork();
+  }
+  var i = 4;
+  cluster.on('exit', function(worker, code, signal) {
+		if(!--i){
+			console.timeEnd('4 cluster');
+			process.exit(0);
+		}
+  });
+} else {
+	process.exit(0);
+}
 const mongo = require('mongodb')
 const ObjectID = mongo.ObjectID
 var MongoClient = mongo.MongoClient;
@@ -94,12 +112,27 @@ const getPiclist = async ctx => {
   let result = await dbase.collection('pic').find().toArray()
   // console.log(result)
   let stream = []
-  result.map(async i => {
-    // console.log(path.resolve(__dirname, '..') + '/pic/' + i.name)
-    let item = fs.readFileSync(path.resolve(__dirname, '..') + '/pic/' + i.name, 'binary');
-    // console,log(item)
-    stream.push({data: item, id: i._id})
-  })
+  // if (cluster.isMaster) {
+  //   for (var i = 0; i < 4; i++) {
+  //     cluster.fork();
+  //   }
+  //   cluster.on('exit', (worker, code, signal) => {
+  //     console.log(`worker ${worker.process.pid} died`);
+  //   });
+  // } else {
+  //   result.map(async i => {
+  //     // console.log(path.resolve(__dirname, '..') + '/pic/' + i.name)
+  //     let item = fs.readFileSync(path.resolve(__dirname, '..') + '/pic/' + i.name, 'binary');
+  //     // console,log(item)
+  //     stream.push({data: item, id: i._id})
+  //   })
+  // }
+  // result.map(async i => {
+  //   // console.log(path.resolve(__dirname, '..') + '/pic/' + i.name)
+  //   let item = fs.readFileSync(path.resolve(__dirname, '..') + '/pic/' + i.name, 'binary');
+  //   // console,log(item)
+  //   stream.push({data: item, id: i._id})
+  // })
   // ctx.type = 'image/png';
   ctx.body = stream
   // ctx.body = stream;

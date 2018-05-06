@@ -6,6 +6,7 @@
     <h2 @click="toPath('video')">to video</h2>
     <h2 @click="toPath('mongo')">to mongo</h2>
     <h2 @click="toPath('upload')">to upload</h2>
+    <h2 @click="toPath('wechat')">to wechat</h2>
   </div>
 </template>
 

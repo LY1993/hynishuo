@@ -15,5 +15,6 @@ export default new Router({
     {path: '/video',component:  resolve => require(['../components/video'], resolve)},
     {path: '/mongo',component:  resolve => require(['../components/mongo'], resolve)},
     {path: '/upload',component:  resolve => require(['../components/upload'], resolve)},
+    {path: '/wechat',component:  resolve => require(['../components/wechat'], resolve)},
   ]
 })

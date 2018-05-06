@@ -12,7 +12,14 @@ const serve = require('koa-static');
 const static = serve(path.resolve(__dirname, '..') + '/dist');
 const bodyparser = require('koa-bodyparser')
 // require('./server.js')
-app.use(bodyparser())
+app.use(bodyparser({
+  formLimit: "5mb",
+  jsonLimit: "5mb",
+  textLimit: "5mb",
+  formidable: {
+    maxFieldsSize: 5 * 1024 * 1024
+  }
+}))
 app.use(static)
 // var createHandler = require('github-webhook-handler')
 // var handler = createHandler({ path: '/api/webhook', secret: 'a123456' })

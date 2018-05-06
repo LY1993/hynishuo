@@ -14,9 +14,11 @@
   "devDependencies": {
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
+    "cluster": "^0.7.7",
     "express": "^4.16.3",
     "koa": "^2.5.0",
     "koa-route": "^3.2.0",
-    "koa-static": "^4.0.2"
+    "koa-static": "^4.0.2",
+    "net": "^1.0.2"
   }
 }
